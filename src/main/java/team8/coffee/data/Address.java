@@ -12,6 +12,14 @@ public class Address {
         this.zip = zip;
     }
 
+    public String getStreet() {
+        return this.street;
+    }
+
+    public int getZip() {
+        return zip;
+    }
+
     @Override
     public String toString() {
         return "{street: " + street + ", ZIP: " + zip + "}";
