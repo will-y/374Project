@@ -20,7 +20,7 @@ public class OrderController {
 
     @PostMapping("/order")
     public void receiveOrder(@RequestBody String order) {
-        orderService.receiveOrder(JSONParser.getOrderInput(order));
+        orderService.processOrder(JSONParser.getOrderInput(order));
 
     }
 

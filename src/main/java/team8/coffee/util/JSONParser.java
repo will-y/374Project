@@ -14,19 +14,23 @@ import java.io.FileReader;
 
 public class JSONParser {
     public static String createAppResponseJSON(AppResponse response) {
-        return "";
+        Gson gson = new Gson();
+        return gson.toJson(response);
     }
 
     public static String createCommandJSON(Command command) {
-        return "";
+        Gson gson = new Gson();
+        return gson.toJson(command);
     }
 
-    public static ControllerResponse getControllerResponse(String filePath) {
-        return null;
+    public static ControllerResponse getControllerResponse(String json) {
+        Gson gson = new Gson();
+        JsonElement element = JsonParser.parseString(json);
+        element = element.getAsJsonObject().get("drinkresponse");
+        return gson.fromJson(element, ControllerResponse.class);
     }
 
     public static OrderInput getOrderInput(String json) {
-
         Gson gson = new Gson();
         JsonElement element = JsonParser.parseString(json);
         element = element.getAsJsonObject().get("order");
