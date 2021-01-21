@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
     @GetMapping("/")
     public String test() {
-        return "test message";
+        return "test message and commit check message";
     }
 
 
