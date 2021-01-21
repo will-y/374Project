@@ -15,7 +15,7 @@ public class OrderController {
 
     @GetMapping("/")
     public String test() {
-        return "test message";
+        return "test message and commit check message";
     }
 
     @PostMapping("/order")
