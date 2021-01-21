@@ -1,6 +1,8 @@
 package team8.coffee.util;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import team8.coffee.data.AppResponse;
 import team8.coffee.data.Command;
@@ -23,17 +25,12 @@ public class JSONParser {
         return null;
     }
 
-    public static OrderInput getOrderInput(String filePath) {
+    public static OrderInput getOrderInput(String json) {
 
-        try {
-            Gson gson = new Gson();
-            JsonReader reader = new JsonReader(new FileReader(filePath));
-            
-            return gson.fromJson(reader, OrderInput.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+        Gson gson = new Gson();
+        JsonElement element = JsonParser.parseString(json);
+        element = element.getAsJsonObject().get("order");
+        return gson.fromJson(element, OrderInput.class);
     }
 }
 

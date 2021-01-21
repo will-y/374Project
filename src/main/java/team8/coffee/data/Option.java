@@ -11,4 +11,9 @@ public class Option {
         this.name = name;
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return "{name: " + name + ", quantity: " + quantity + "}";
+    }
 }
