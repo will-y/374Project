@@ -27,10 +27,10 @@ public class OrderService {
         System.out.println(order);
 
         Command command = new Command(-1, -1, order.getOrderID(), order.getDrink(), "Automated", order.getOptions());
-        System.out.println("Sent Command to the Controleler: ");
+        System.out.println("Sent Command to the Controller: ");
         String commandString = JSONParser.createCommandJSON(command);
         System.out.println(commandString);
-        String controllerResponseString = controllerInterface.sendToController(-1, -1, commandString);
+        String controllerResponseString = controllerInterface.sendToController(1, 1, commandString);
         System.out.println("Received From Controller: ");
         System.out.println(controllerResponseString);
         ControllerResponse response = JSONParser.getControllerResponse(controllerResponseString);

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import team8.coffee.service.MockControllers;
 
 @Component
-public class ControllerInterface extends Subject {
+public class ControllerInterface {
     @Autowired
     private MockControllers controllers;
 

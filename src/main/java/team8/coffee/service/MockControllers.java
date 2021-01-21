@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Component
-public class MockControllers implements Observer {
+public class MockControllers {
 
     private HashMap<Integer, MockController> controllers;
 
@@ -19,10 +19,5 @@ public class MockControllers implements Observer {
 
     public String getResponseFromController(int controllerId, int machineId, String json) {
         return controllers.get(controllerId).createResponse(machineId, json);
-    }
-
-    @Override
-    public String update(String json) {
-        return null;
     }
 }
