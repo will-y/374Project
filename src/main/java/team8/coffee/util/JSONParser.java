@@ -33,4 +33,3 @@ public class JSONParser {
         return gson.fromJson(element, OrderInput.class);
     }
 }
-
