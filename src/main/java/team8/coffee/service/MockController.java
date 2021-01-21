@@ -1,12 +1,18 @@
 package team8.coffee.service;
 
 import team8.coffee.data.Command;
+import team8.coffee.util.JSONParser;
 
+import java.util.List;
 import java.util.Random;
 
 public class MockController {
 
-    public static String sendResponse(Command command) {
+    public MockController(int controllerId, List<Integer> machinesIDs) {
+    }
+
+    public String createResponse(int machineId, String commandJSON) {
+        Command command = JSONParser.getCommand(commandJSON);
         int status = getStatus();
 
         if (status == 0) {
@@ -16,11 +22,9 @@ public class MockController {
             String errorMessage = getErrorMessage(errorCode);
             return String.format("{\n  \"drinkresponse\": {\n    \"orderID\": %d,\n    \"status\": %d,\n    \"errordesc\": \"%s\",\n    \"errorcode\": %d\n  }\n}", command.getOrderId(), status, errorMessage, errorCode);
         }
-
-
     }
 
-    private static int getStatus() {
+    private int getStatus() {
         Random rand = new Random();
         if (rand.nextFloat() > 0.8) {
             return 1;
@@ -29,12 +33,12 @@ public class MockController {
         }
     }
 
-    private static int getError() {
+    private int getError() {
         Random rand = new Random();
         return rand.nextInt(5);
     }
 
-    private static String getErrorMessage(int errorCode) {
+    private String getErrorMessage(int errorCode) {
         switch (errorCode) {
             case 1:
                 return "Machine Offline";

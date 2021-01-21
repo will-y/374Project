@@ -36,5 +36,10 @@ public class JSONParser {
         element = element.getAsJsonObject().get("order");
         return gson.fromJson(element, OrderInput.class);
     }
+
+    public static Command getCommand(String json) {
+        Gson gson = new Gson();
+        return gson.fromJson(json, Command.class);
+    }
 }
 
