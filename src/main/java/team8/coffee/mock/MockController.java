@@ -1,4 +1,4 @@
-package team8.coffee.service;
+package team8.coffee.mock;
 
 import team8.coffee.data.Command;
 import team8.coffee.util.JSONParser;

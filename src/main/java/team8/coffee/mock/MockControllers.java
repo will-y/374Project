@@ -1,4 +1,4 @@
-package team8.coffee.service;
+package team8.coffee.mock;
 
 import org.springframework.stereotype.Component;
 
