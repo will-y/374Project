@@ -42,4 +42,3 @@ public class JSONParser {
         return gson.fromJson(json, Command.class);
     }
 }
-
