@@ -1,5 +1,5 @@
 package team8.coffee.service;
-import team8.coffee.data.AdvancedOrderInput;
+import team8.coffee.data.OrderInput;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class DataBaseController {
         }
     }
 
-    public ArrayList<Integer[]> capableMachines(AdvancedOrderInput order) {
+    public ArrayList<Integer[]> capableMachines(OrderInput order) {
         try {
             String statement = "Select MachineID, Controller FROM capableMachines WHERE Street_Address = ? and ZIP_code = ? and capability = ? and MachineID in (SELECT CoffeeMaker FROM CoffeeMakerDrink WHERE DrinkType = ?)";
             String drink = order.getDrink();

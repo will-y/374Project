@@ -6,7 +6,7 @@ import com.google.gson.JsonParser;
 import team8.coffee.data.AppResponse;
 import team8.coffee.data.Command;
 import team8.coffee.data.ControllerResponse;
-import team8.coffee.data.AdvancedOrderInput;
+import team8.coffee.data.OrderInput;
 
 public class JSONParser {
 
@@ -27,11 +27,11 @@ public class JSONParser {
         return gson.fromJson(element, ControllerResponse.class);
     }
 
-    public static AdvancedOrderInput getOrderInput(String json) {
+    public static OrderInput getOrderInput(String json) {
         Gson gson = new Gson();
         JsonElement element = JsonParser.parseString(json);
         element = element.getAsJsonObject().get("order");
-        return gson.fromJson(element, AdvancedOrderInput.class);
+        return gson.fromJson(element, OrderInput.class);
     }
 
     public static Command getCommand(String json) {
