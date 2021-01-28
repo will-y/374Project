@@ -13,8 +13,8 @@ public class MockControllers {
     public MockControllers() {
         controllers = new HashMap<>();
         //TODO pull from database to do this
-        controllers.put(1, new MockController(1, List.of(1, 2)));
-        controllers.put(2, new MockController(2, List.of(3)));
+        controllers.put(1, new MockController(1, List.of(2)));
+        controllers.put(2, new MockController(2, List.of(1)));
     }
 
     public String getResponseFromController(int controllerId, int machineId, String json) {

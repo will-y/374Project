@@ -8,22 +8,38 @@ import team8.coffee.data.AppResponse;
 import team8.coffee.data.Command;
 import team8.coffee.data.ControllerResponse;
 import team8.coffee.data.OrderInput;
+import team8.coffee.service.DataBaseController;
 import team8.coffee.service.OrderService;
 import team8.coffee.util.JSONParser;
+
+import java.util.ArrayList;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    @Autowired
+    DataBaseController dataBaseController;
     @Autowired
     ControllerInterface controllerInterface;
     @Autowired
     ClientInterface clientInterface;
 
     public void processOrder(OrderInput order) {
+        ArrayList<Integer[]> machines = dataBaseController.capableMachines(order);
         System.out.println("Received Order: ");
         System.out.println(order);
+        int controllerId;
+        int coffeeMachineId;
+        if (machines.size() == 0) {
+            AppResponse appResponse = new AppResponse(order.getOrderID(), -1, 1, "Failed", "No Machine Available");
+            clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
+            return;
+        } else {
+            coffeeMachineId = machines.get(0)[0];
+            controllerId = machines.get(0)[1];
+        }
 
-        Command command = new Command(-1, -1, order.getOrderID(), order.getDrink(), "Automated", order.getOptions());
+        Command command = new Command(controllerId, coffeeMachineId, order.getOrderID(), order.getDrink(), "Automated", order.getOptions());
         System.out.println("Sent Command to the Controller: ");
         String commandString = JSONParser.createCommandJSON(command);
         System.out.println(commandString);

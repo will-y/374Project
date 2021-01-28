@@ -1,5 +1,5 @@
 package team8.coffee.service.impl;
-import org.springframework.stereotype.Service;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import team8.coffee.data.OrderInput;
 import team8.coffee.service.DataBaseController;
 
@@ -7,9 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Service
 public class DataBaseControllerImpl implements DataBaseController {
-    private static final String url = "jdbc:sqlite:C:\\Users\\wootenjt\\Documents\\CSSE374\\M2\\coffee.db";
+    private static final String url = "jdbc:sqlite:src/main/resources/coffee.db";
     private Connection conn;
 
     public DataBaseControllerImpl() {
@@ -18,19 +17,20 @@ public class DataBaseControllerImpl implements DataBaseController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        ;
     }
 
     public ArrayList<Integer[]> capableMachines(OrderInput order) {
         try {
-            String statement = "Select CoffeeMaker.MachineID, CoffeeMaker.Controller FROM capableMachines WHERE street = ? and ZIP_code = ? and capability = ?";
+            String statement = "Select MachineID, Controller FROM capableMachines WHERE Street_Address = ? and ZIP_code = ? and capability = ? and MachineID in (SELECT CoffeeMaker FROM CoffeeMakerDrink WHERE DrinkType = ?)";
+            String drink = order.getDrink();
             String street = order.getAddress().getStreet();
             int zip = order.getAddress().getZip();
-            String capability = order.getOptions() == null ? "simple" : "automated";
+            String capability = order.getOptions() == null ? "Simple" : "Automated";
             PreparedStatement sql = conn.prepareStatement(statement);
             sql.setString(1, street);
             sql.setInt(2, zip);
             sql.setString(3, capability);
+            sql.setString(4, drink);
             ResultSet rs = sql.executeQuery();
             ArrayList<Integer[]> out = new ArrayList<>();
             Integer[] current;
@@ -42,6 +42,7 @@ public class DataBaseControllerImpl implements DataBaseController {
             }
             return out;
         } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
 
@@ -49,7 +50,7 @@ public class DataBaseControllerImpl implements DataBaseController {
 
     public HashMap<Integer, ArrayList<Integer>> controllers() {
         try {
-            String sql = "Select CoffeeMaker.MachineID, CoffeeMaker.Controller FROM CoffeeMaker";
+            String sql = "Select MachineID, Controller FROM CoffeeMaker";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             HashMap<Integer, ArrayList<Integer>> out = new HashMap<>();
