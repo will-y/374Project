@@ -1,6 +1,7 @@
 package team8.coffee.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import team8.coffee.controller.ClientInterface;
 import team8.coffee.controller.ControllerInterface;
@@ -22,14 +23,18 @@ public class OrderService {
     @Autowired
     ClientInterface clientInterface;
 
+    OrderStrategy orderStrategy;
+
     public void processOrder(OrderInput order) {
         ArrayList<Integer[]> machines = dataBaseController.capableMachines(order);
-        System.out.println("Received Order: ");
-        System.out.println(order);
         int controllerId;
         int coffeeMachineId;
         if (machines.size() == 0) {
             AppResponse appResponse = new AppResponse(order.getOrderID(), -1, 1, "Failed", "No Machine Available");
+            clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
+            return;
+        } else if (order.getOptions() != null && orderStrategy.isSimple()) {
+            AppResponse appResponse = new AppResponse(order.getOrderID(), -1, 1, "Failed", "Not a Simple Order Request");
             clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
             return;
         } else {
@@ -37,24 +42,40 @@ public class OrderService {
             controllerId = machines.get(0)[1];
         }
 
-        Command command = new Command(controllerId, coffeeMachineId, order.getOrderID(), order.getDrink(), "Automated", order.getOptions());
+        Command command = getCommand(order, coffeeMachineId, controllerId);
+
         System.out.println("Sent Command to the Controller: ");
         String commandString = JSONParser.createCommandJSON(command);
         System.out.println(commandString);
+
         String controllerResponseString = controllerInterface.sendToController(1, 1, commandString);
         System.out.println("Received From Controller: ");
         System.out.println(controllerResponseString);
+
+        AppResponse appResponse = handleControllerResponse(controllerResponseString, coffeeMachineId);
+
+        clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
+    }
+
+    public Command getCommand(OrderInput orderInput, int coffeeMachineId, int controllerId) {
+
+        return orderStrategy.initialOrderHandler(orderInput, coffeeMachineId, controllerId);
+    }
+
+    public AppResponse handleControllerResponse(String controllerResponseString, int coffeeMachineId) {
         ControllerResponse response = JSONParser.getControllerResponse(controllerResponseString);
         System.out.println("Sent to Application:");
-        String statusMessage = "";
+        String statusMessage;
         if (response.getStatus() == 0) {
             statusMessage = "Your coffee has been prepared with your desired options.";
         } else {
             statusMessage = "Your coffee order has been cancelled.";
         }
 
-        AppResponse appResponse = new AppResponse(response.getOrderID(), command.getCoffeeMachineId(), response.getStatus(), statusMessage, response.getErrorDescription());
+        return new AppResponse(response.getOrderID(), coffeeMachineId, response.getStatus(), statusMessage, response.getErrorDescription());
+    }
 
-        clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
+    public void applyStrategy(OrderStrategy strategy) {
+        this.orderStrategy = strategy;
     }
 }
