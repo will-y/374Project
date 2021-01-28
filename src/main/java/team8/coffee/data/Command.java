@@ -1,5 +1,7 @@
 package team8.coffee.data;
 
+import java.util.Arrays;
+
 public class Command {
     int controllerId;
     int coffeeMachineId;
@@ -39,5 +41,17 @@ public class Command {
 
     public Option[] getOptions() {
         return options;
+    }
+
+    @Override
+    public String toString() {
+        return "Command{" +
+                "controllerId=" + controllerId +
+                ", coffeeMachineId=" + coffeeMachineId +
+                ", orderId=" + orderId +
+                ", drinkName='" + drinkName + '\'' +
+                ", requestType='" + requestType + '\'' +
+                ", options=" + Arrays.toString(options) +
+                '}';
     }
 }
