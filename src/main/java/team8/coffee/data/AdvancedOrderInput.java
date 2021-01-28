@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Arrays;
 
-public class OrderInput {
+public class AdvancedOrderInput {
     int orderID;
     Address address;
     String drink;
     @SerializedName("condiments")
     Option[] options;
 
-    public OrderInput(int orderId, Address address, String drink, Option[] options) {
+    public AdvancedOrderInput(int orderId, Address address, String drink, Option[] options) {
         this.orderID = orderId;
         this.address = address;
         this.drink = drink;

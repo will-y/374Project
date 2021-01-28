@@ -7,7 +7,7 @@ import team8.coffee.controller.ControllerInterface;
 import team8.coffee.data.AppResponse;
 import team8.coffee.data.Command;
 import team8.coffee.data.ControllerResponse;
-import team8.coffee.data.OrderInput;
+import team8.coffee.data.AdvancedOrderInput;
 import team8.coffee.util.JSONParser;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class OrderService {
     @Autowired
     ClientInterface clientInterface;
 
-    public void processOrder(OrderInput order) {
+    public void processOrder(AdvancedOrderInput order) {
         ArrayList<Integer[]> machines = dataBaseController.capableMachines(order);
         System.out.println("Received Order: ");
         System.out.println(order);
