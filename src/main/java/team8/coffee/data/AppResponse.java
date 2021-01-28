@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class AppResponse {
 
     int orderID;
+
     @SerializedName("coffee_machine_id")
     int coffeeMachineId;
     int status;
