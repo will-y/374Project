@@ -1,14 +1,14 @@
 package team8.coffee.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import team8.coffee.controller.ClientInterface;
 import team8.coffee.controller.ControllerInterface;
 import team8.coffee.data.AppResponse;
-import team8.coffee.data.Command;
+import team8.coffee.data.command.OldCommand;
 import team8.coffee.data.ControllerResponse;
 import team8.coffee.data.OrderInput;
+import team8.coffee.util.ControllerType;
 import team8.coffee.util.JSONParser;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class OrderService {
             AppResponse appResponse = new AppResponse(order.getOrderID(), -1, 1, "Failed", "No Machine Available");
             clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
             return;
-        } else if (order.getOptions() != null && orderStrategy.isSimple()) {
+        } else if (order.getOptions() != null && orderStrategy.getControllerType() == ControllerType.SIMPLE) {
             AppResponse appResponse = new AppResponse(order.getOrderID(), -1, 1, "Failed", "Not a Simple Order Request");
             clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
             return;
@@ -42,7 +42,7 @@ public class OrderService {
             controllerId = machines.get(0)[1];
         }
 
-        Command command = getCommand(order, coffeeMachineId, controllerId);
+        OldCommand command = getCommand(order, coffeeMachineId, controllerId);
 
         System.out.println("Sent Command to the Controller: ");
         String commandString = JSONParser.createCommandJSON(command);
@@ -57,7 +57,7 @@ public class OrderService {
         clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
     }
 
-    public Command getCommand(OrderInput orderInput, int coffeeMachineId, int controllerId) {
+    public OldCommand getCommand(OrderInput orderInput, int coffeeMachineId, int controllerId) {
 
         return orderStrategy.initialOrderHandler(orderInput, coffeeMachineId, controllerId);
     }

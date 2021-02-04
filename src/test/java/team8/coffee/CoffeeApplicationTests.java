@@ -3,7 +3,7 @@ package team8.coffee;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import team8.coffee.data.Address;
-import team8.coffee.data.Command;
+import team8.coffee.data.command.OldCommand;
 import team8.coffee.data.Option;
 import team8.coffee.data.OrderInput;
 import team8.coffee.service.AdvancedOrderStrategy;
@@ -47,7 +47,7 @@ class CoffeeApplicationTests {
                 "  }\n" +
                 "}", 1).getStatusMessage(), "Your coffee order has been cancelled.");
         assertEquals(os.getCommand(new OrderInput(2, new Address("asdf",0), "Large Coffee", new Option[] {new Option("sugar", 4)}), 1, 1).toString(),
-                new Command(1, 1, 2, "Large Coffee", "Automated", new Option[] {new Option("sugar", 4)}).toString());
+                new OldCommand(1, 1, 2, "Large Coffee", "Automated", new Option[] {new Option("sugar", 4)}).toString());
 
     }
 

@@ -1,8 +1,10 @@
-package team8.coffee.data;
+package team8.coffee.data.command;
+
+import team8.coffee.data.Option;
 
 import java.util.Arrays;
 
-public class Command {
+public class CommandImpl implements Command {
     int controllerId;
     int coffeeMachineId;
     int orderId;
@@ -10,7 +12,7 @@ public class Command {
     String requestType;
     Option[] options;
 
-    public Command(int controllerId, int coffeeMachineId, int orderId, String drinkName, String requestType, Option[] options) {
+    public CommandImpl(int controllerId, int coffeeMachineId, int orderId, String drinkName, String requestType, Option[] options) {
         this.controllerId = controllerId;
         this.coffeeMachineId = coffeeMachineId;
         this.orderId = orderId;
@@ -53,5 +55,10 @@ public class Command {
                 ", requestType='" + requestType + '\'' +
                 ", options=" + Arrays.toString(options) +
                 '}';
+    }
+
+    @Override
+    public String recipe() {
+        return "Recipe: [";
     }
 }
