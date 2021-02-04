@@ -1,5 +1,8 @@
 package team8.coffee.service;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import team8.coffee.data.OrderInput;
 import team8.coffee.data.Recipe;
 
@@ -7,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Repository
 public class DataBaseController {
     private static final String url = "jdbc:sqlite:src/main/resources/coffee.db";
     private Connection conn;
@@ -21,7 +25,7 @@ public class DataBaseController {
     
     public ArrayList<Integer[]> capableMachines(OrderInput order) {
         try {
-            String statement = "Select Machine, Controller, Type FROM capableMachines WHERE Street_Address = ? and ZIP_code = ?";
+            String statement = "Select Machine, Controller, Type FROM capableMachine WHERE Street_Address = ? and ZIP_code = ?";
             String drink = order.getDrink();
             String street = order.getAddress().getStreet();
             int zip = order.getAddress().getZip();
@@ -30,8 +34,8 @@ public class DataBaseController {
             sql.setInt(2, zip);
             ResultSet rs = sql.executeQuery();
             ArrayList<Integer[]> out = new ArrayList<>();
-            boolean isProgrammable = recipe(order).size() == 0;
-            boolean isAutomated = order.getOptions() == null;
+            boolean isProgrammable = recipe(order).size() != 0;
+            boolean isAutomated = order.getOptions() != null;
             HashMap<Integer[], Boolean[]> machineType = new HashMap<>();
             while(rs.next()) {
                 Integer[] machine = new Integer[] {rs.getInt("Machine"), rs.getInt("Controller")};
@@ -101,7 +105,7 @@ public class DataBaseController {
         try {
             String drink = order.getDrink();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Recipes WHERE Drink = " + drink);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Recipes WHERE Drink = \"" + drink + "\" ORDER BY Step");
             ArrayList<Recipe> out = new ArrayList<>();
             while(rs.next()) {
                 out.add(new Recipe(rs.getString("Action"), rs.getString("Ingredient")));

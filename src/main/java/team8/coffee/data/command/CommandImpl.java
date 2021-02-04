@@ -65,30 +65,28 @@ public class CommandImpl implements Command {
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder("\"command\": {" +
+        StringBuilder string = new StringBuilder("{" +
                 "\"controller_id\": " + "\"" + controllerId + "\"" +
                 ", \"coffee_machine_id\": " + "\"" + coffeeMachineId + "\"" +
                 ", \"orderID\": " + "\"" + orderId + "\"" +
                 ", \"DrinkName\": " + "\"" + drinkName + "\"" +
-                ", \"Requesttype\": " + "\"" + requestType + "\"" +
-                ", \"Options\": [");
+                ", \"Requesttype\": " + "\"" + requestType + "\"");
 
-        for (Option o : options) {
-            string.append("{\"Name\": ").append("\"").append(o.getName()).append("\", \"qty\": ").append(o.getQuantity()).append("},");
+        if (options != null) {
+            string.append(", \"Options\": [");
+            for (Option o : options) {
+                string.append("{\"Name\": ").append("\"").append(o.getName()).append("\", \"qty\": ").append(o.getQuantity()).append("},");
+            }
+
+            string = new StringBuilder(string.substring(0, string.length() - 1));
+            string.append("]");
         }
-
-        string = new StringBuilder(string.substring(0, string.length() - 1));
-
-        String recipeString = recipe();
-
-        string.append("],").append(recipeString.substring(0, recipeString.length() - 1)).append("]}");
-
 
         return string.toString();
     }
 
     @Override
     public String recipe() {
-        return "Recipe: [";
+        return ",Recipe: [";
     }
 }

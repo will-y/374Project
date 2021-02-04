@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import team8.coffee.controller.ClientInterface;
 import team8.coffee.controller.ControllerInterface;
 import team8.coffee.data.AppResponse;
+import team8.coffee.data.Recipe;
 import team8.coffee.data.command.Command;
 import team8.coffee.data.command.OldCommand;
 import team8.coffee.data.ControllerResponse;
@@ -13,6 +14,7 @@ import team8.coffee.util.ControllerType;
 import team8.coffee.util.JSONParser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -28,6 +30,7 @@ public class OrderService {
 
     public void processOrder(OrderInput order) {
         ArrayList<Integer[]> machines = dataBaseController.capableMachines(order);
+        ArrayList<Recipe> recipes = dataBaseController.recipe(order);
         int controllerId;
         int coffeeMachineId;
         if (machines.size() == 0) {
@@ -43,7 +46,7 @@ public class OrderService {
             controllerId = machines.get(0)[1];
         }
 
-        Command command = getCommand(order, coffeeMachineId, controllerId);
+        Command command = getCommand(order, coffeeMachineId, controllerId, recipes);
 
         System.out.println("Sent Command to the Controller: ");
         String commandString = JSONParser.createCommandJSON(command);
@@ -58,9 +61,9 @@ public class OrderService {
         clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
     }
 
-    public Command getCommand(OrderInput orderInput, int coffeeMachineId, int controllerId) {
+    public Command getCommand(OrderInput orderInput, int coffeeMachineId, int controllerId, List<Recipe> recipeList) {
 
-        return orderStrategy.initialOrderHandler(orderInput, coffeeMachineId, controllerId, null);
+        return orderStrategy.initialOrderHandler(orderInput, coffeeMachineId, controllerId, recipeList);
     }
 
     public AppResponse handleControllerResponse(String controllerResponseString, int coffeeMachineId) {

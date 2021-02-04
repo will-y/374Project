@@ -16,13 +16,16 @@ public class ProgrammableOrderStrategy implements OrderStrategy {
         System.out.println("Received Programmable Order: ");
         System.out.println(order);
         Command command = new CommandImpl(controllerId, coffeeMachineId, order.getOrderID(), order.getDrink(), "Automated", order.getOptions());
-        for (Recipe recipe : recipeList) {
-            if (recipe.getObject() == null) {
-                command = new SimpleRecipeDecorator(command, recipe.getCommandStep());
-            } else {
-                command = new AdvancedRecipeDecorator(command, recipe.getCommandStep(), recipe.getObject());
+        if (recipeList != null) {
+            for (Recipe recipe : recipeList) {
+                if (recipe.getObject() == null) {
+                    command = new SimpleRecipeDecorator(command, recipe.getCommandStep());
+                } else {
+                    command = new AdvancedRecipeDecorator(command, recipe.getCommandStep(), recipe.getObject());
+                }
             }
         }
+
         return command;
     }
 

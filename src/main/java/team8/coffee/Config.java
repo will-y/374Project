@@ -6,8 +6,4 @@ import team8.coffee.service.DataBaseController;
 
 @Configuration
 public class Config {
-    @Bean
-    public DataBaseController dataBaseController() {
-        return new DataBaseController();
-    }
 }

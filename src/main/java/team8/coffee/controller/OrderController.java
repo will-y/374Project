@@ -29,7 +29,7 @@ public class OrderController {
         orderService.processOrder(JSONParser.getOrderInput(order));
     }
 
-    @PostMapping("/programmable-oder")
+    @PostMapping("/programmable-order")
     public void receiveProgrammableOrder(@RequestBody String order) {
         OrderService orderService = orderServiceFactory.createOrderService(ControllerType.PROGRAMMABLE);
         orderService.processOrder(JSONParser.getOrderInput(order));

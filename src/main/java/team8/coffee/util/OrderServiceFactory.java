@@ -1,5 +1,9 @@
 package team8.coffee.util;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import team8.coffee.service.AdvancedOrderStrategy;
 import team8.coffee.service.OrderService;
@@ -7,7 +11,10 @@ import team8.coffee.service.ProgrammableOrderStrategy;
 import team8.coffee.service.SimpleOrderStrategy;
 
 @Service
-public class OrderServiceFactory {
+public class OrderServiceFactory implements ApplicationContextAware {
+
+    private static ApplicationContext context;
+
     public OrderService createOrderService(ControllerType controllerType) {
         OrderService service = new OrderService();
         switch (controllerType) {
@@ -22,6 +29,14 @@ public class OrderServiceFactory {
                 break;
         }
 
+        AutowireCapableBeanFactory awcbf = context.getAutowireCapableBeanFactory();
+        awcbf.autowireBean(service);
+
         return service;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
     }
 }
