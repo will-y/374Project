@@ -44,7 +44,6 @@ public class DataBaseController {
             e.printStackTrace();
             return null;
         }
-
     }
 
     public HashMap<Integer, ArrayList<Integer>> controllers() {
