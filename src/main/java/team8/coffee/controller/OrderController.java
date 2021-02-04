@@ -26,6 +26,4 @@ public class OrderController {
         orderService.applyStrategy(new AdvancedOrderStrategy());
         orderService.processOrder(JSONParser.getOrderInput(order));
     }
-
-
 }
