@@ -45,16 +45,46 @@ public class CommandImpl implements Command {
         return options;
     }
 
+    /*
+    "command": {
+    "controller_id": 2,
+    "coffee_machine_id": 1,
+    "orderID": 1,
+    "DrinkName": "Pumpkin Spice",
+    "Requesttype": "Programmable",
+    "Options:": [
+        {"Name": "sugar", "qty": 2}
+    ]
+    "Recipe": [
+        {"commandstep": "add", "object": "coffee"},
+        {"commandstep": "add", "object": "pumpkin spice"},
+        {"commandstep": "mix"},
+        {"commandstep": "top", "object": "nutmeg"}
+    ]
+     */
+
     @Override
     public String toString() {
-        return "Command{" +
-                "controllerId=" + controllerId +
-                ", coffeeMachineId=" + coffeeMachineId +
-                ", orderId=" + orderId +
-                ", drinkName='" + drinkName + '\'' +
-                ", requestType='" + requestType + '\'' +
-                ", options=" + Arrays.toString(options) +
-                '}';
+        StringBuilder string = new StringBuilder("\"command\": {" +
+                "\"controller_id\": " + "\"" + controllerId + "\"" +
+                ", \"coffee_machine_id\": " + "\"" + coffeeMachineId + "\"" +
+                ", \"orderID\": " + "\"" + orderId + "\"" +
+                ", \"DrinkName\": " + "\"" + drinkName + "\"" +
+                ", \"Requesttype\": " + "\"" + requestType + "\"" +
+                ", \"Options\": [");
+
+        for (Option o : options) {
+            string.append("{\"Name\": ").append("\"").append(o.getName()).append("\", \"qty\": ").append(o.getQuantity()).append("},");
+        }
+
+        string = new StringBuilder(string.substring(0, string.length() - 1));
+
+        String recipeString = recipe();
+
+        string.append("],").append(recipeString.substring(0, recipeString.length() - 1)).append("]}");
+
+
+        return string.toString();
     }
 
     @Override
