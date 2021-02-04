@@ -17,7 +17,16 @@ public class JSONParser {
     }
 
     public static String createCommandJSON(Command command) {
-        return command.toString();
+        StringBuilder string = new StringBuilder(command.toString());
+        String recipeString = command.recipe();
+
+        if (!recipeString.equals(",Recipe: [")) {
+            string.append(recipeString.substring(0, recipeString.length() - 1)).append("]");
+        }
+
+        string.append("}");
+
+        return string.toString();
     }
 
     public static ControllerResponse getControllerResponse(String json) {

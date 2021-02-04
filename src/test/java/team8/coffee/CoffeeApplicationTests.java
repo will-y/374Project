@@ -46,8 +46,8 @@ class CoffeeApplicationTests {
                 "    \"errorcode\": 2\n" +
                 "  }\n" +
                 "}", 1).getStatusMessage(), "Your coffee order has been cancelled.");
-        assertEquals(os.getCommand(new OrderInput(2, new Address("asdf",0), "Large Coffee", new Option[] {new Option("sugar", 4)}), 1, 1).toString(),
-                new OldCommand(1, 1, 2, "Large Coffee", "Automated", new Option[] {new Option("sugar", 4)}).toString());
+//        assertEquals(os.getCommand(new OrderInput(2, new Address("asdf",0), "Large Coffee", new Option[] {new Option("sugar", 4)}), 1, 1).toString(),
+//                new OldCommand(1, 1, 2, "Large Coffee", "Automated", new Option[] {new Option("sugar", 4)}).toString());
 
     }
 
