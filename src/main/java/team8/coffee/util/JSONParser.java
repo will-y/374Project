@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import team8.coffee.data.AppResponse;
+import team8.coffee.data.command.Command;
 import team8.coffee.data.command.OldCommand;
 import team8.coffee.data.ControllerResponse;
 import team8.coffee.data.OrderInput;
@@ -15,9 +16,8 @@ public class JSONParser {
         return gson.toJson(response);
     }
 
-    public static String createCommandJSON(OldCommand command) {
-        Gson gson = new Gson();
-        return gson.toJson(command);
+    public static String createCommandJSON(Command command) {
+        return command.toString();
     }
 
     public static ControllerResponse getControllerResponse(String json) {
