@@ -1,6 +1,6 @@
 package team8.coffee.mock;
 
-import team8.coffee.data.Command;
+import team8.coffee.data.command.OldCommand;
 import team8.coffee.util.JSONParser;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class MockController {
     }
 
     public String createResponse(int machineId, String commandJSON) {
-        Command command = JSONParser.getCommand(commandJSON);
+        OldCommand command = JSONParser.getCommand(commandJSON);
         int status = getStatus();
 
         if (status == 0) {
