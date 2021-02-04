@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import team8.coffee.controller.ClientInterface;
 import team8.coffee.controller.ControllerInterface;
 import team8.coffee.data.AppResponse;
+import team8.coffee.data.command.Command;
 import team8.coffee.data.command.OldCommand;
 import team8.coffee.data.ControllerResponse;
 import team8.coffee.data.OrderInput;
@@ -42,7 +43,7 @@ public class OrderService {
             controllerId = machines.get(0)[1];
         }
 
-        OldCommand command = getCommand(order, coffeeMachineId, controllerId);
+        Command command = getCommand(order, coffeeMachineId, controllerId);
 
         System.out.println("Sent Command to the Controller: ");
         String commandString = JSONParser.createCommandJSON(command);
@@ -57,9 +58,9 @@ public class OrderService {
         clientInterface.sendToClient(JSONParser.createAppResponseJSON(appResponse));
     }
 
-    public OldCommand getCommand(OrderInput orderInput, int coffeeMachineId, int controllerId) {
+    public Command getCommand(OrderInput orderInput, int coffeeMachineId, int controllerId) {
 
-        return orderStrategy.initialOrderHandler(orderInput, coffeeMachineId, controllerId);
+        return orderStrategy.initialOrderHandler(orderInput, coffeeMachineId, controllerId, null);
     }
 
     public AppResponse handleControllerResponse(String controllerResponseString, int coffeeMachineId) {

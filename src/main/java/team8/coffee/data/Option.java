@@ -16,4 +16,12 @@ public class Option {
     public String toString() {
         return "{name: " + name + ", quantity: " + quantity + "}";
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }
