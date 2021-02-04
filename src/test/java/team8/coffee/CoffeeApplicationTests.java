@@ -10,7 +10,8 @@ import team8.coffee.service.AdvancedOrderStrategy;
 import team8.coffee.service.OrderService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-@SpringBootTest
+
+
 class CoffeeApplicationTests {
 
     @Test
