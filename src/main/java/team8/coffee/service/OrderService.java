@@ -7,7 +7,6 @@ import team8.coffee.controller.ControllerInterface;
 import team8.coffee.data.AppResponse;
 import team8.coffee.data.Recipe;
 import team8.coffee.data.command.Command;
-import team8.coffee.data.command.OldCommand;
 import team8.coffee.data.ControllerResponse;
 import team8.coffee.data.OrderInput;
 import team8.coffee.util.ControllerType;

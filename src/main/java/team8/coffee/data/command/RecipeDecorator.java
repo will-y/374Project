@@ -16,4 +16,9 @@ public abstract class RecipeDecorator implements Command {
     public String toString() {
         return command.toString();
     }
+
+    @Override
+    public int getOrderId() {
+        return command.getOrderId();
+    }
 }

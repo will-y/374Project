@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import team8.coffee.data.AppResponse;
 import team8.coffee.data.command.Command;
-import team8.coffee.data.command.OldCommand;
+import team8.coffee.data.command.CommandImpl;
 import team8.coffee.data.ControllerResponse;
 import team8.coffee.data.OrderInput;
 
@@ -43,8 +43,8 @@ public class JSONParser {
         return gson.fromJson(element, OrderInput.class);
     }
 
-    public static OldCommand getCommand(String json) {
+    public static Command getCommand(String json) {
         Gson gson = new Gson();
-        return gson.fromJson(json, OldCommand.class);
+        return gson.fromJson(json, CommandImpl.class);
     }
 }
