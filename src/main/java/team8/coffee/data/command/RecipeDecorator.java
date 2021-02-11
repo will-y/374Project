@@ -1,5 +1,6 @@
 package team8.coffee.data.command;
 
+//Here is where we use decorator pattern, to help us deal with recipes
 public abstract class RecipeDecorator implements Command {
     private Command command;
 

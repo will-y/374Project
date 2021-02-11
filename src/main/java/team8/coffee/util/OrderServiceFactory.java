@@ -10,6 +10,9 @@ import team8.coffee.service.OrderService;
 import team8.coffee.service.ProgrammableOrderStrategy;
 import team8.coffee.service.SimpleOrderStrategy;
 
+//Here is where we use factory pattern, to help us deal with different types of order to send to the
+// different types of coffee machines
+
 @Service
 public class OrderServiceFactory implements ApplicationContextAware {
 
