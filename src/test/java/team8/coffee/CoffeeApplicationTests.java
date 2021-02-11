@@ -1,13 +1,16 @@
 package team8.coffee;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import team8.coffee.data.Address;
-import team8.coffee.data.command.OldCommand;
+import team8.coffee.data.command.AdvancedRecipeDecorator;
+import team8.coffee.data.command.Command;
+import team8.coffee.data.command.CommandImpl;
 import team8.coffee.data.Option;
 import team8.coffee.data.OrderInput;
+import team8.coffee.data.command.SimpleRecipeDecorator;
 import team8.coffee.service.AdvancedOrderStrategy;
 import team8.coffee.service.OrderService;
+import team8.coffee.util.JSONParser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -46,9 +49,26 @@ class CoffeeApplicationTests {
                 "    \"errorcode\": 2\n" +
                 "  }\n" +
                 "}", 1).getStatusMessage(), "Your coffee order has been cancelled.");
-//        assertEquals(os.getCommand(new OrderInput(2, new Address("asdf",0), "Large Coffee", new Option[] {new Option("sugar", 4)}), 1, 1).toString(),
-//                new OldCommand(1, 1, 2, "Large Coffee", "Automated", new Option[] {new Option("sugar", 4)}).toString());
+        assertEquals(os.getCommand(new OrderInput(2, new Address("asdf",0), "Large Coffee", new Option[] {new Option("sugar", 4)}), 1, 1, null).toString(),
+                new CommandImpl(1, 1, 2, "Large Coffee", "Automated", new Option[]{new Option("sugar", 4)}).toString());
 
+    }
+
+    @Test
+    void testCommandDecorators() {
+        Command baseCommand = new CommandImpl(2, 1, 1, "Americano", "Automated", new Option[] {new Option("Cream", 2), new Option("Sugar", 1)});
+
+        Command simpleDecorator = new SimpleRecipeDecorator(baseCommand, "mix");
+
+        assertEquals("{\"controllerId\": 2, \"coffeeMachineId\": 1, \"orderId\": 1, \"drinkName\": \"Americano\", \"requestType\": \"Automated\", \"options\": [{\"name\": \"Cream\", \"qty\": 2},{\"name\": \"Sugar\", \"qty\": 1}],Recipe: [{\"commandstep\": \"mix\"}]}", JSONParser.createCommandJSON(simpleDecorator));
+
+        Command doubleDecorator = new SimpleRecipeDecorator(simpleDecorator, "mix");
+
+        assertEquals("{\"controllerId\": 2, \"coffeeMachineId\": 1, \"orderId\": 1, \"drinkName\": \"Americano\", \"requestType\": \"Automated\", \"options\": [{\"name\": \"Cream\", \"qty\": 2},{\"name\": \"Sugar\", \"qty\": 1}],Recipe: [{\"commandstep\": \"mix\"},{\"commandstep\": \"mix\"}]}", JSONParser.createCommandJSON(doubleDecorator));
+
+        Command advancedDecorator = new AdvancedRecipeDecorator(doubleDecorator, "steam", "milk");
+
+        assertEquals("{\"controllerId\": 2, \"coffeeMachineId\": 1, \"orderId\": 1, \"drinkName\": \"Americano\", \"requestType\": \"Automated\", \"options\": [{\"name\": \"Cream\", \"qty\": 2},{\"name\": \"Sugar\", \"qty\": 1}],Recipe: [{\"commandstep\": \"mix\"},{\"commandstep\": \"mix\"},{\"commandstep\": \"steam\", \"object\": \"milk\"}]}", JSONParser.createCommandJSON(advancedDecorator));
     }
 
 }

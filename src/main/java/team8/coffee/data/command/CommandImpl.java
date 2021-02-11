@@ -66,16 +66,16 @@ public class CommandImpl implements Command {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder("{" +
-                "\"controller_id\": " + "\"" + controllerId + "\"" +
-                ", \"coffee_machine_id\": " + "\"" + coffeeMachineId + "\"" +
-                ", \"orderID\": " + "\"" + orderId + "\"" +
-                ", \"DrinkName\": " + "\"" + drinkName + "\"" +
-                ", \"Requesttype\": " + "\"" + requestType + "\"");
+                "\"controllerId\": " + controllerId +
+                ", \"coffeeMachineId\": " + coffeeMachineId +
+                ", \"orderId\": " + orderId +
+                ", \"drinkName\": " + "\"" + drinkName + "\"" +
+                ", \"requestType\": " + "\"" + requestType + "\"");
 
         if (options != null) {
-            string.append(", \"Options\": [");
+            string.append(", \"options\": [");
             for (Option o : options) {
-                string.append("{\"Name\": ").append("\"").append(o.getName()).append("\", \"qty\": ").append(o.getQuantity()).append("},");
+                string.append("{\"name\": ").append("\"").append(o.getName()).append("\", \"qty\": ").append(o.getQuantity()).append("},");
             }
 
             string = new StringBuilder(string.substring(0, string.length() - 1));

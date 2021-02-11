@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import team8.coffee.data.*;
 import team8.coffee.data.command.Command;
 import team8.coffee.data.command.CommandImpl;
-import team8.coffee.data.command.OldCommand;
 import team8.coffee.util.JSONParser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,7 +21,7 @@ public class JSONParserTests {
     public void createCommandTest() {
         Command command = new CommandImpl(1, 1, 2, "Large Coffee", "automated", new Option[] {new Option("sugar", 4)});
         String actual = JSONParser.createCommandJSON(command);
-        String expected = "{\"controllerId\":1,\"coffeeMachineId\":1,\"orderId\":2,\"drinkName\":\"Large Coffee\",\"requestType\":\"automated\",\"options\":[{\"name\":\"sugar\",\"qty\":4}]}";
+        String expected = "{\"controllerId\": 1, \"coffeeMachineId\": 1, \"orderId\": 2, \"drinkName\": \"Large Coffee\", \"requestType\": \"automated\", \"options\": [{\"name\": \"sugar\", \"qty\": 4}]}";
         assertEquals(expected, actual);
     }
 
@@ -65,7 +64,7 @@ public class JSONParserTests {
     public void testGetCommand() {
         String json = JSONParser.createCommandJSON(new CommandImpl(2, 1, 1, "Americano", "Automated", new Option[] {new Option("Cream", 2), new Option("Sugar", 1)}));
 
-        OldCommand expected = new OldCommand(2, 1, 1, "Americano", "Automated", new Option[] {new Option("Cream", 2), new Option("Sugar", 1)});
+        Command expected = new CommandImpl(2, 1, 1, "Americano", "Automated", new Option[] {new Option("Cream", 2), new Option("Sugar", 1)});
 
         assertEquals(expected.toString(), JSONParser.getCommand(json).toString());
     }
