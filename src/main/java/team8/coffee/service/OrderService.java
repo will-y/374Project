@@ -9,6 +9,7 @@ import team8.coffee.data.Recipe;
 import team8.coffee.data.command.Command;
 import team8.coffee.data.ControllerResponse;
 import team8.coffee.data.OrderInput;
+import team8.coffee.util.CompanyName;
 import team8.coffee.util.ControllerType;
 import team8.coffee.util.JSONParser;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class OrderService {
 
     @Autowired
-    DataBaseController dataBaseController;
+    DatabaseControllerFactory databaseFactoryController;
     @Autowired
     ControllerInterface controllerInterface;
     @Autowired
@@ -28,8 +29,9 @@ public class OrderService {
     OrderStrategy orderStrategy;
 
     public void processOrder(OrderInput order) {
-        ArrayList<Integer[]> machines = dataBaseController.capableMachines(order);
-        ArrayList<Recipe> recipes = dataBaseController.recipe(order);
+        DatabaseController databaseController = databaseFactoryController.createDatabaseController(CompanyName.CM2W);
+        ArrayList<Integer[]> machines = databaseController.capableMachines(order);
+        ArrayList<Recipe> recipes = databaseController.recipe(order);
         int controllerId;
         int coffeeMachineId;
         if (machines.size() == 0) {

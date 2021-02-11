@@ -13,7 +13,8 @@ import team8.coffee.util.OrderServiceFactory;
 public class OrderController {
 
     @Autowired
-    DataBaseController dataBaseController;
+    DatabaseControllerFactory databaseFactoryController;
+
     @Autowired
     OrderServiceFactory orderServiceFactory;
 
